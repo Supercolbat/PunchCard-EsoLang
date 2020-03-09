@@ -1,2 +1,2 @@
 language="java10"
-run="java punchcard.java"
+run="java punchcard.java test.pc"
