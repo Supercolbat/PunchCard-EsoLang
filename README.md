@@ -34,10 +34,10 @@ Head over to the [wiki](https://github.com/Supercolbat/PunchCard-EsoLang/wiki) t
 ### Add 1 and 2
     .  . . .   ;push
            .   ;1
-          ..   ;move 1 cell right
     . .        ;add
           .    ;2
     .          ;output
+---
 ### Output "ABC"
     .  . . .   ;push
          ..    ;6
@@ -45,22 +45,23 @@ Head over to the [wiki](https://github.com/Supercolbat/PunchCard-EsoLang/wiki) t
     .  . . .   ;push
          ...   ;7
     ..         ;move 1 cell left
-    .. .. ..   ;merge all cells to pointer
+    .  .. ..   ;merge all cells from right to pointer
           ..   ;move 1 cell right
     .  . . .   ;push
-         . .   ;6
+         ..    ;6
           ..   ;move 1 cell right
     .  . . .   ;push
          ..    ;6
     ..         ;move 1 cell left
-    .. .. ..   ;merge all cells to pointer
+    .  .. ..   ;merge all cells from right to pointer
           ..   ;move 1 cell right
     .  . . .   ;push
          ..    ;6
+          ..   ;move 1 cell right
     .  . . .   ;push
          . .   ;5
     ..         ;move 1 cell left
-    .. .. ..   ;merge all cells to pointer
+    .  .. ..   ;merge all cells from right to pointer
      .         ;ascii to char
     .          ;output A
     ..         ;move 1 cell left
@@ -69,5 +70,7 @@ Head over to the [wiki](https://github.com/Supercolbat/PunchCard-EsoLang/wiki) t
     ..         ;move 1 cell left
      .         ;ascii to char
     .          ;output C
-This will be simplified and shortened by a *lot* when loops are added.
+    ;will be simplified when i add for loops
+
+
 [![Run on Repl.it](https://repl.it/badge/github/Supercolbat/PunchCard-PL)](https://repl.it/github/Supercolbat/PunchCard-PL)
