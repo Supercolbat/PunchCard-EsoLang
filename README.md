@@ -18,8 +18,49 @@ There are only 8 "data spots" in each line.
 |.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| output data in cell |
 |..&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| go back one cell |
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..| go forward one cell |
-|.&nbsp;&nbsp;..&nbsp;..| merge all cells after pointer to pointer|
-|..&nbsp;..&nbsp;&nbsp;.| merge all cells before pointer to pointer|
+|.&nbsp;&nbsp;..&nbsp;..| merge all cells after pointer to pointer (inclusive)|
+|..&nbsp;..&nbsp;&nbsp;.| merge all cells before pointer to pointer (inclusive)|
 |..&nbsp;..&nbsp;..| merge all cells to pointer|
 
+## Examples
+&nbsp;
+### Add 1 and 2
+    .  . . .   ;push
+           .   ;1
+          ..   ;move 1 cell right
+    . .        ;add
+          .    ;2
+    .          ;output
+### Output "ABC"
+    .  . . .   ;push
+         ..    ;6
+          ..   ;move 1 cell right
+    .  . . .   ;push
+         ...   ;7
+    ..         ;move 1 cell left
+    .. .. ..   ;merge all cells to pointer
+          ..   ;move 1 cell right
+    .  . . .   ;push
+         . .   ;6
+          ..   ;move 1 cell right
+    .  . . .   ;push
+         ..    ;6
+    ..         ;move 1 cell left
+    .. .. ..   ;merge all cells to pointer
+          ..   ;move 1 cell right
+    .  . . .   ;push
+         ..    ;6
+    .  . . .   ;push
+         . .   ;5
+    ..         ;move 1 cell left
+    .. .. ..   ;merge all cells to pointer
+     .         ;ascii to char
+    .          ;output A
+    ..         ;move 1 cell left
+     .         ;ascii to char
+    .          ;output B
+    ..         ;move 1 cell left
+     .         ;ascii to char
+    .          ;output C
+This will be simplified and shortened by a *lot* when loops are added.
 [![Run on Repl.it](https://repl.it/badge/github/Supercolbat/PunchCard-PL)](https://repl.it/github/Supercolbat/PunchCard-PL)
