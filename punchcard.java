@@ -61,6 +61,7 @@ public class File
 public class Parser {
     public static void verbose(String s,int l) {if (flagl.contains("verbose")) {System.out.println(" [VERBOSE:"+l+"] "+s);}}
     private static void warn(String s,int l) {System.out.println(" [WARNING:"+l+"] "+s);}
+    private static void error(String s, int l) {System.out.println(" [ERROR:"+l+"] "+s); System.exit(0);}
     public static List<String> flagl = new ArrayList<String>();
     public List<String> parse(ArrayList<String> lines, List<String> flags) {
         boolean getc = true;
@@ -129,28 +130,64 @@ public class Parser {
     	                    output.add(memory.get(pointer));
                             Parser.verbose("Pushed to memory: "+memory.get(pointer),indline);
 							memory.set(pointer,"");
+                        } else if (line.equals(". .     ")) {
+                            getc = false;
+                            run = "add";
+                            Parser.verbose("cmd: add", indline);
+                        } else if (line.equals(" . .    ")) {
+                            getc = false;
+                            run = "sub";
+                            Parser.verbose("cmd: sub",indline);
+                        } else if (line.equals(". . .   ")) {
+                            if (memory.size() <= pointer) {
+                                Parser.error("Pointer outside of assigned memory", indline);
+                            }
+                            int a = Integer.parseInt(memory.get(pointer));
+                            int b = Integer.parseInt(memory.get(pointer+1));
+                            memory.set(pointer,Integer.toString(a+b));
+                        } else if (line.equals(" . . .  ")) {
+                            if (memory.size() <= pointer) {
+                                Parser.error("Pointer outside of assigned memory", indline);
+                            }
+                            int a = Integer.parseInt(memory.get(pointer));
+                            int b = Integer.parseInt(memory.get(pointer+1));
+                            memory.set(pointer,Integer.toString(a-b));
                         } else {
                             Parser.warn("Unknown line on line "+indline+". Skipping. It may be useful, so check if it's written correctly:\n"+line,indline);
                         }
                     } else {
                         if (run == "push") {
-                            String tmp = line.replace(".","1");
-                            tmp = tmp.replace(" ", "0");
+                            int tmp = Integer.parseInt(line.replace(".","1").replace(" ", "0"),2);
                             if (memory.size() <= pointer) {
-                                memory.add(Integer.toString(Integer.parseInt(tmp,2)));
+                                memory.add(Integer.toString(tmp));
                             } else {
-                                memory.set(pointer,Integer.toString(Integer.parseInt(tmp,2)));
+                                memory.set(pointer,Integer.toString(tmp));
                             }
-                            Parser.verbose("pushed: "+tmp+" ("+Integer.parseInt(tmp,2)+")",indline);
+                            Parser.verbose("pushed: "+tmp+" ("+tmp+")",indline);
                             Parser.verbose(memory.toString(),indline);
                             
                             getc = true;
                             run = "";
+                        } else if (run == "add") {
+                            String tmp = line.replace(".","1").replace(" ", "0");
+                            String ln = memory.get(pointer).replace(".","1").replace(" ","0");
+                            memory.set(pointer,Integer.toString(Integer.parseInt(tmp,2)+Integer.parseInt(ln,2)));
+                            getc = true;
+                            Parser.verbose("Added "+Integer.parseInt(ln,2)+ " and "+Integer.parseInt(tmp,2)+" to "+pointer,indline);
+                        } else if (run == "sub") {
+                            String tmp = line.replace(".","1").replace(" ", "0");
+                            String ln = memory.get(pointer).replace(".","1").replace(" ","0");
+                            ln = ln.replace(" ", "0");
+                            memory.set(pointer,Integer.toString(Integer.parseInt(ln,2)-Integer.parseInt(tmp,2)));
+                            Parser.verbose("Subtracted "+tmp+ " and "+ln+" to "+pointer,indline);
+                            getc = true;
                         }
                     }
                 } else {
-                    Parser.verbose("Comment found",indline);
+                    Parser.warn("Line is less than 8 characters and isn't a comment. Make sure you have all the spaces in.",indline);
                 }
+            } else {
+                Parser.verbose("Comment found",indline);
             }
         }
         return output;
