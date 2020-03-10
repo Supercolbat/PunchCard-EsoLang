@@ -20,7 +20,7 @@ public class Main {
         }
         ArrayList<String> fdata = f.readf(args);
         if (flags.contains("verbose")) {
-            Parser.verbose("File data:"+fdata);
+            System.out.println(" [VERBOSE] File data:"+fdata);
         }
         List<String> pdata = p.parse(fdata,flags);
         for (String out : pdata) {
@@ -59,8 +59,8 @@ public class File
 }
 
 public class Parser {
-    public static void verbose(String s) {if (flagl.contains("verbose")) {System.out.println(" [VERBOSE] "+s);}}
-    private static void warn(String s) {System.out.println(" [WARNING] "+s);}
+    public static void verbose(String s,int l) {if (flagl.contains("verbose")) {System.out.println(" [VERBOSE:"+l+"] "+s);}}
+    private static void warn(String s,int l) {System.out.println(" [WARNING:"+l+"] "+s);}
     public static List<String> flagl = new ArrayList<String>();
     public List<String> parse(ArrayList<String> lines, List<String> flags) {
         boolean getc = true;
@@ -68,9 +68,11 @@ public class Parser {
         List<String> memory = new ArrayList<String>();
         List<String> output = new ArrayList<String>();
         int pointer = 0;
+        int indline = 0;
         flagl = flags;
 
         for (String line : lines) {
+            indline++;
 			if (line.charAt(0) != ';') {
                 if (line.length() >= 8) {
     	            if (line.length() > 8) {
@@ -80,68 +82,74 @@ public class Parser {
     	                if (line.equals(".  . . .")) {
         	                getc = false;
             	            run = "push";
+                            Parser.verbose("cmd: push",indline);
                 	    } else if (line.equals(" .. . . ")) {
                     	    memory.set(pointer, "");
-                            Parser.verbose("cmd: pop");
+                            Parser.verbose("cmd: pop",indline);
                         
         	            } else if (line.equals("..      ")) {
             	            pointer--;
-                            Parser.verbose("cmd: bak");
-                            Parser.verbose("pointer: "+pointer);
+                            Parser.verbose("cmd: bak",indline);
+                            Parser.verbose("pointer: "+pointer,indline);
     	                } else if (line.equals("      ..")) {
         	                pointer++;
-                            Parser.verbose("cmd: fwd");
-                            Parser.verbose("pointer: "+pointer);
+                            Parser.verbose("cmd: fwd",indline);
+                            Parser.verbose("pointer: "+pointer,indline);
 	                    } else if (line.equals(" .      ")) {
-    	                    memory.set(0,Character.toString((char) Integer.parseInt(memory.get(pointer))));
+    	                    memory.set(pointer,Character.toString((char) Integer.parseInt(memory.get(pointer))));
+                            Parser.verbose("Converted to char: "+memory.get(pointer),indline);
         	            } else if (line.equals("  .     ")) {
-            	            memory.set(0,Integer.toString(Integer.parseInt(memory.get(pointer))+48));
+            	            memory.set(pointer,Integer.toString(Integer.parseInt(memory.get(pointer))+48));
+                            Parser.verbose("Converted to int: "+memory.get(pointer),indline);
                 	    } else if (line.equals(".  ..  .")) {
 							String merged = String.join("",memory);
 							memory.clear();
 	                        memory.add(merged);
-    	                } else if (line.equals(".  ..  ..")) {
+                            Parser.verbose("Merged all to pointer",indline);
+                            Parser.verbose(memory.toString(),indline);
+    	                } else if (line.equals(".  .. ..")) {
 							List<String> bef = new ArrayList<String>();
-        	                memory.add("");
-							bef.addAll(memory.subList(0,pointer-1));
+        	                memory.add("tmp");
+							bef.addAll(memory.subList(0,pointer));
 							bef.add(String.join("",memory.subList(pointer,memory.size()-1)));
 							memory.clear();
 							memory.addAll(bef);
-							memory.remove(memory.size()-1);
-                	    } else if (line.equals("..  ..  .")) {
-							memory.add("");
+                            Parser.verbose("Merged right to pointer",indline);
+                            Parser.verbose(memory.toString(),indline);
+                	    } else if (line.equals(".. ..  .")) {
                             List<String> aft = new ArrayList<String>();
-                            memory.add("");
+                            memory.add("tmp");
+                            aft.add(String.join("",memory.subList(0,pointer+1)));
                             aft.addAll(memory.subList(pointer+1,memory.size()-1));
-							aft.add(0,String.join("",memory.subList(0,pointer+1)));
 							memory.clear();
 							memory.addAll(aft);
-							memory.remove(memory.size()-1);
+                            Parser.verbose("Merged left to pointer",indline);
+                            Parser.verbose(memory.toString(),indline);
 	                    } else if (line.equals(".       ")) {
     	                    output.add(memory.get(pointer));
-                            Parser.verbose("Pushed to memory: "+memory.get(pointer));
+                            Parser.verbose("Pushed to memory: "+memory.get(pointer),indline);
 							memory.set(pointer,"");
                         } else {
-                            Parser.warn(" [Warning] Unknown line. Skipping. It may be useful, so check if it's written correctly:\n"+line);
+                            Parser.warn("Unknown line on line "+indline+". Skipping. It may be useful, so check if it's written correctly:\n"+line,indline);
                         }
                     } else {
                         if (run == "push") {
                             String tmp = line.replace(".","1");
                             tmp = tmp.replace(" ", "0");
-                            if (memory.size() == pointer) {
+                            if (memory.size() <= pointer) {
                                 memory.add(Integer.toString(Integer.parseInt(tmp,2)));
                             } else {
                                 memory.set(pointer,Integer.toString(Integer.parseInt(tmp,2)));
                             }
-                            Parser.verbose("cmd: push");
-                            Parser.verbose("pushed: "+tmp);
+                            Parser.verbose("pushed: "+tmp+" ("+Integer.parseInt(tmp,2)+")",indline);
+                            Parser.verbose(memory.toString(),indline);
                             
                             getc = true;
                             run = "";
                         }
                     }
                 } else {
-                    Parser.verbose("Comment found");
+                    Parser.verbose("Comment found",indline);
                 }
             }
         }
