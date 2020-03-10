@@ -22,7 +22,7 @@ Head over to the [wiki](https://github.com/Supercolbat/PunchCard-EsoLang/wiki) t
 |<pre>`.       `</pre>| output data in cell |
 |<pre>`.  .. ..`</pre>| merge all cells after pointer to pointer (inclusive)|
 |<pre>`.. ..  .`</pre>| merge all cells before pointer to pointer (inclusive)|
-|<pre>`.. .. ..`</pre>| merge all cells to pointer|
+|<pre>`.  ..  .`</pre>| merge all cells to pointer|
 |<pre>`.    . .`</pre>| for loop |
 |<pre>`;comment ...`</pre>| comment |
 
