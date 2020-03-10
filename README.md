@@ -2,6 +2,7 @@
 An esoteric programming language that will be used in a punch card reader machine.
 
 I programmed this in [repl.it](https://repl.it) but if you want to use this on your machine, just copy `punchcard.java`
+If you are viewing this on repl.it, please note that this README file doesn't load correctly.
 
 ## How it works
 
@@ -10,22 +11,22 @@ Head over to the [wiki](https://github.com/Supercolbat/PunchCard-EsoLang/wiki) t
 
 | Command     | What it does           |
 | :-: | --- |
-|.&nbsp;&nbsp;.&nbsp;.&nbsp;.| push next line to cell in stack|
-|&nbsp;&nbsp;..&nbsp;.&nbsp;.&nbsp;| pop cell |
-|..&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| go back one cell |
-|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..| go forward one cell |
-|.&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| sum next line to cell |
-|&nbsp;.&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;| sub next line to cell |
-|.&nbsp;&nbsp;..&nbsp;..| merge all cells after pointer to pointer (inclusive)|
-|..&nbsp;..&nbsp;&nbsp;.| merge all cells before pointer to pointer (inclusive)|
-|..&nbsp;..&nbsp;..| merge all cells to pointer|
-|&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ascii to chr |
-|&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ascii to dec |
-|.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| output data in cell |
-|| for loop|
+|<pre>`.  . . .`</pre>| push next line to cell in stack|
+|<pre>` .. . . `</pre>| pop cell |
+|<pre>`..      `</pre>| go back one cell |
+|<pre>`      ..`</pre>| go forward one cell |
+|<pre>` .      `</pre>| ascii to chr |
+|<pre>`  .     `</pre>| ascii to dec |
+|<pre>`. .     `</pre>| sum next line to cell |
+|<pre>` . .    `</pre>| sub next line to cell |
+|<pre>`.       `</pre>| output data in cell |
+|<pre>`.  .. ..`</pre>| merge all cells after pointer to pointer (inclusive)|
+|<pre>`.. ..  .`</pre>| merge all cells before pointer to pointer (inclusive)|
+|<pre>`.. .. ..`</pre>| merge all cells to pointer|
+|<pre>`.    . .`</pre>| for loop |
+|<pre>`;comment ...`</pre>| comment |
 
 ## Examples
-&nbsp;
 ### Add 1 and 2
     .  . . .   ;push
            .   ;1
