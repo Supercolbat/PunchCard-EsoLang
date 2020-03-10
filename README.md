@@ -11,16 +11,17 @@ There are only 8 "data spots" in each line.
 | :-: | --- |
 |.&nbsp;&nbsp;.&nbsp;.&nbsp;.| push next line to cell in stack|
 |&nbsp;&nbsp;..&nbsp;.&nbsp;.&nbsp;| pop cell |
-|&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ascii to chr |
-|&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ascii to dec           |
-|.&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| sum next line to cell |
-|&nbsp;.&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;| sub next line to cell |
-|.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| output data in cell |
 |..&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| go back one cell |
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..| go forward one cell |
+|.&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| sum next line to cell |
+|&nbsp;.&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;| sub next line to cell |
 |.&nbsp;&nbsp;..&nbsp;..| merge all cells after pointer to pointer (inclusive)|
 |..&nbsp;..&nbsp;&nbsp;.| merge all cells before pointer to pointer (inclusive)|
 |..&nbsp;..&nbsp;..| merge all cells to pointer|
+|&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ascii to chr |
+|&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ascii to dec |
+|.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| output data in cell |
+|| for loop|
 
 ## Examples
 &nbsp;
