@@ -18,11 +18,12 @@ public class Main {
                 System.exit(0);
             }
         }
-		ArrayList<String> fdata = f.readf(args);
+        ArrayList<String> fdata = f.readf(args);
         if (flags.contains("verbose")) {
-			Parser.verbose("File data:"+fdata);
+            Parser.verbose("File data:"+fdata);
         }
-		for (String out: fdata) {
+        List<String> pdata = p.parse(fdata,flags);
+        for (String out : pdata) {
 			System.out.println(out);
 		}
     }
@@ -46,7 +47,7 @@ public class File
                     System.out.println(String.join(".", fileND) + " not found.");
                 }
             } else {
-                System.out.println("Usage: punchcard [--verbose -v] filename");
+                System.out.println("Usage: punchcard [--verbose || -v] filename");
                 System.exit(0);
             }
         } else {
@@ -58,14 +59,16 @@ public class File
 }
 
 public class Parser {
-    public static String verbose(String s) { System.out.println(" [VERBOSE] "); }
+    public static void verbose(String s) {if (flagl.contains("verbose")) {System.out.println(" [VERBOSE] "+s);}}
+    private static void warn(String s) {System.out.println(" [WARNING] "+s);}
+    public static List<String> flagl = new ArrayList<String>();
     public List<String> parse(ArrayList<String> lines, List<String> flags) {
         boolean getc = true;
         String run = "";
         List<String> memory = new ArrayList<String>();
         List<String> output = new ArrayList<String>();
         int pointer = 0;
-		boolean vFlag = flags.contains("verbose");
+        flagl = flags;
 
         for (String line : lines) {
 			if (line.charAt(0) != ';') {
@@ -79,21 +82,16 @@ public class Parser {
             	            run = "push";
                 	    } else if (line.equals(" .. . . ")) {
                     	    memory.set(pointer, "");
-                        	if (vFlag) {
-								Parser.verbose("cmd: pop")
-    	                    }
+                            Parser.verbose("cmd: pop");
+                        
         	            } else if (line.equals("..      ")) {
             	            pointer--;
-                	        if (vFlag) {
-								Parser.verbose("cmd: bak");
-								Parser.verbose("pointer: "+pointer");
-	                        }
+                            Parser.verbose("cmd: bak");
+                            Parser.verbose("pointer: "+pointer);
     	                } else if (line.equals("      ..")) {
         	                pointer++;
-            	            if (vFlag) {
-                	            Parser.verbose("cmd: fwd");
-								Parser.verbose("pointer: "+pointer);
-                        	}
+                            Parser.verbose("cmd: fwd");
+                            Parser.verbose("pointer: "+pointer);
 	                    } else if (line.equals(" .      ")) {
     	                    memory.set(0,Character.toString((char) Integer.parseInt(memory.get(pointer))));
         	            } else if (line.equals("  .     ")) {
@@ -112,41 +110,41 @@ public class Parser {
 							memory.remove(memory.size()-1);
                 	    } else if (line.equals("..  ..  .")) {
 							memory.add("");
-							List<String> aft = memory.sublist(pointer+1,memory.size()-1);
-							aft.add(0,String.join("",memory.sublist(0,pointer+1)));
+                            List<String> aft = new ArrayList<String>();
+                            memory.add("");
+                            aft.addAll(memory.subList(pointer+1,memory.size()-1));
+							aft.add(0,String.join("",memory.subList(0,pointer+1)));
 							memory.clear();
 							memory.addAll(aft);
 							memory.remove(memory.size()-1);
-                        } else {
-                            memory.add("");
-                            memory.set(pointer,String.join("",memory.subList(0,pointer+1)));
 	                    } else if (line.equals(".       ")) {
     	                    output.add(memory.get(pointer));
-							if (vFlag) {
-								Parser.verbose("Pushed to memory: "+memory.get(pointer));
-							}
+                            Parser.verbose("Pushed to memory: "+memory.get(pointer));
 							memory.set(pointer,"");
-        	            }
-                } else {
-                    if (run == "push") {
-                        String tmp = line.replace(".","1");
-                        tmp = tmp.replace(" ", "0");
-                        if (memory.size() < pointer) {
-                            memory.add(Integer.toString(Integer.parseInt(tmp,2)));
                         } else {
-                            memory.set(pointer,Integer.toString(Integer.parseInt(tmp,2)));
+                            Parser.warn(" [Warning] Unknown line. Skipping. It may be useful, so check if it's written correctly:\n"+line);
                         }
-                        if (flags.contains("verbose")) {
-							Parser.verbose("cmd: push");
-							Parser.verbose("pushed: "+tmp);
+                    } else {
+                        if (run == "push") {
+                            String tmp = line.replace(".","1");
+                            tmp = tmp.replace(" ", "0");
+                            if (memory.size() == pointer) {
+                                memory.add(Integer.toString(Integer.parseInt(tmp,2)));
+                            } else {
+                                memory.set(pointer,Integer.toString(Integer.parseInt(tmp,2)));
+                            }
+                            Parser.verbose("cmd: push");
+                            Parser.verbose("pushed: "+tmp);
+                            
+                            getc = true;
+                            run = "";
                         }
-                        
-                        getc = true;
-                        run = "";
                     }
+                } else {
+                    Parser.verbose("Comment found");
                 }
             }
         }
-        return memory.toString();
+        return output;
     }
 }
