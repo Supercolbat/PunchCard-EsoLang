@@ -9,6 +9,10 @@ If you are viewing this on repl.it, please note that this README file doesn't lo
 Head over to the [wiki](https://github.com/Supercolbat/PunchCard-EsoLang/wiki) to find out!
 
 
+
+
+# THIS README PAGE IS OUTDATED. PLEASE READ THE WIKI
+
 | Command     | What it does           |
 | :-: | --- |
 |<pre>`.  . . .`</pre>| push next line to cell in stack|
