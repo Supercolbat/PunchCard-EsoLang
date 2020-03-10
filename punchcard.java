@@ -50,8 +50,17 @@ public class File
                 System.out.println("Usage: punchcard [--verbose || -v] filename");
                 System.exit(0);
             }
+        } else if (fileND[fileND.length-1].equals("pcc")) {
+            try (Scanner s = new Scanner(new FileReader(String.join(".", fileND)))) {
+                for (String chunk : s.split("(?<=\\G...)")) {
+                    lines.add(chunk);
+                }
+            }
+            catch (FileNotFoundException e) {
+                System.out.println(String.join(".", fileND) + " not found.");
+            }
         } else {
-            System.out.println("Illegal file extension.\nUsage: punchcard [--verbose -v] filename");
+            System.out.println("Illegal file extension.\nUsage: punchcard [--verbose -v] filename. [pc ppc]");
             System.exit(0);
         }
         return lines;
