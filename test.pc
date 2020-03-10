@@ -4,6 +4,6 @@
 .  . . .  push
      ...  7
 ..        <
-.. .. ..  merge
+.  ..  .  merge
  .        asc to chr
-.
+.         output
