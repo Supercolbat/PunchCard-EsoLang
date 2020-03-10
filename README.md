@@ -4,8 +4,9 @@ An esoteric programming language that will be used in a punch card reader machin
 I programmed this in [repl.it](https://repl.it) but if you want to use this on your machine, just copy `punchcard.java`
 
 ## How it works
-There are only 8 "data spots" in each line.
----
+
+Head over to the [wiki](https://github.com/Supercolbat/PunchCard-EsoLang/wiki) to find out!
+
 
 | Command     | What it does           |
 | :-: | --- |
