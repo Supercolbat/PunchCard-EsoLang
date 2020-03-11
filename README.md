@@ -10,9 +10,6 @@ Head over to the [wiki](https://github.com/Supercolbat/PunchCard-EsoLang/wiki) t
 
 
 
-
-# THIS README PAGE IS OUTDATED. PLEASE READ THE WIKI
-
 | Command     | What it does           |
 | :-: | --- |
 |<pre>`.  . . .`</pre>| push next line to cell in stack|
@@ -72,5 +69,6 @@ Head over to the [wiki](https://github.com/Supercolbat/PunchCard-EsoLang/wiki) t
     .          ;output C
     ;will be simplified when i add for loops
 
+# THIS README PAGE MAY BE OUTDATED. PLEASE READ THE WIKI FOR UPDATED INFORMATION
 
 [![Run on Repl.it](https://repl.it/badge/github/Supercolbat/PunchCard-PL)](https://repl.it/github/Supercolbat/PunchCard-PL)
